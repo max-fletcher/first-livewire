@@ -11,7 +11,10 @@
    <link rel="stylesheet" href="{{ asset('backend/plugins/fontawesome-free/css/all.min.css') }}">
    <!-- Theme style -->
    <link rel="stylesheet" href="{{ asset('backend/dist/css/adminlte.min.css') }}">
+   {{-- Livewire Styles --}}
    @livewireStyles
+   {{-- Toastr Styles --}}
+   <link type="text/css" href="{{ asset('backend/plugins/toastr/toastr.min.css') }}" rel="stylesheet"/>
 </head>
 <body class="hold-transition sidebar-mini">
    <div class="wrapper">
@@ -48,13 +51,43 @@
       <script src="{{ asset('backend/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
       <!-- AdminLTE App -->
       <script src="{{ asset('backend/dist/js/adminlte.min.js') }}"></script>
-
+      {{-- Livewire Scripts --}}
       @livewireScripts
+      {{-- Toastr scripts --}}
+      <script type="text/javascript" src="{{ asset('backend/plugins/toastr/toastr.min.js') }}"></script>
 
-      {{-- Listener for event that is in app/http/livewire/admin/list-users called "show-form". It has Jquery syntax. It takes element with id="form" and attaches
-      the "show" class to it. --}}
+      {{-- Events for user submission. Has taostr or bootstrap --}}
       <script>
-         window.addEventListener('show-form', event =>{  
+         $(document).ready(function(){
+            toastr.options = {
+               // "closeButton": false,
+               // "debug": false,
+               // "newestOnTop": false,
+               "progressBar": true,
+               "positionClass": "toast-top-right",
+               // "preventDuplicates": false,
+               // "onclick": null,
+               // "showDuration": "300",
+               // "hideDuration": "1000",
+               // "timeOut": "5000",
+               // "extendedTimeOut": "1000",
+               // "showEasing": "swing",
+               // "hideEasing": "linear",
+               // "showMethod": "fadeIn",
+               // "hideMethod": "fadeOut"
+            }
+
+            window.addEventListener('hide-form', event =>{
+               $('#form').modal('hide')
+               toastr.success(event.detail.message, "Success!")
+            })
+         });
+      </script>
+
+      {{-- Listeners for livewire event that is in app/http/livewire/admin/list-users called "show-form". It has Jquery syntax. It takes element with id="form" and attaches
+      the "show" class to it. See Bootstrap docs. --}}
+      <script>
+         window.addEventListener('show-form', event =>{
             $('#form').modal('show')
          })
       </script>
